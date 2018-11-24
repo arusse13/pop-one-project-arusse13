@@ -41,28 +41,36 @@ def test_string_to_location():
     #test with correct inputs
 
 def test_location_to_string():
-    # Replace with tests
+    assert ('A0'== location_to_string((0,0)))
+    ## Replace with tests
 
 def test_at():
-    # Replace with tests
+    assert ('M' or 'R' or '-' == at((0,0)))
+    ## Replace with tests
 
 def test_all_locations():
-    # Replace with tests
+    assert ('M' or 'R' or '-' == all_locations())
+    ## Replace with tests
 
 def test_adjacent_location():
-    # Replace with tests
+    assert ((0,1) == adjacent_location((0,0),right))
+    ## Replace with tests
     
 def test_is_legal_move_by_musketeer():
-    # Replace with tests
+    assert (True == is_legal_move((0,4),left))
+    ## Replace with tests
     
 def test_is_legal_move_by_enemy():
-    # Replace with tests
+    assert (True == is_legal_move_by_enemy((0,0),right))
+    ## Replace with tests
 
 def test_is_legal_move():
-    # Replace with tests
+    assert (True == is_legal_move((0,0),right))
+    ## Replace with tests
 
 def test_can_move_piece_at():
-    # Replace with tests
+    assert (True == can_move_piece_at((0,0)))
+    ## Replace with tests
 
 def test_has_some_legal_move_somewhere():
     set_board(board1)
@@ -72,24 +80,31 @@ def test_has_some_legal_move_somewhere():
     # with at least one additional board
 
 def test_possible_moves_from():
-    # Replace with tests
+    assert ([]==possible_moves_from((0,0)))
+    ## Replace with tests
 
 def test_is_legal_location():
-    # Replace with tests
+    assert (True == is_legal_location((0,0)))
+    ## Replace with tests
 
 def test_is_within_board():
-    # Replace with tests
+    assert (True == is_within_board((0,0),right))
+    ## Replace with tests
 
 def test_all_possible_moves_for():
-    # Replace with tests
+    assert ([] ==  all_possible_moves_for(M))
+    ## Replace with tests
     
 def test_make_move():
+    assert ((0,0) == make_move((0,1),left))
     # Replace with tests
     
 def test_choose_computer_move():
+    assert (()==choose_computer_move(M))
     # Replace with tests; should work for both 'M' and 'R'
 
 def test_is_enemy_win():
+    assert True
     # Replace with tests
 
 

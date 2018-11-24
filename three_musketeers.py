@@ -36,20 +36,24 @@ def get_board():
     return board
 
 def string_to_location(s):
+    location = (0,0)
     """Given a two-character string (such as 'A5'), returns the designated
        location as a 2-tuple (such as (0, 4)).
        The function should raise ValueError exception if the input
        is outside of the correct range (between 'A' and 'E' for s[0] and
        between '1' and '5' for s[1]
        """
-    pass # Replace with code
+    return location
+    #pass # Replace with code
 
 def location_to_string(location):
+    location_string = 'A0'
     """Returns the string representation of a location.
     Similarly to the previous function, this function should raise
     ValueError exception if the input is outside of the correct range
     """
-    pass # Replace with code
+    return location_string
+    #pass # Replace with code
 
 def at(location):
     """Returns the contents of the board at the given location.
@@ -57,39 +61,47 @@ def at(location):
     return board[location[0]][location[1]]
 
 def all_locations():
+    location_contains = ['M']
     """Returns a list of all 25 locations on the board."""
-    pass # Replace with code
+    return location_contains
+    #pass # Replace with code
 
 def adjacent_location(location, direction):
     """Return the location next to the given one, in the given direction.
        Does not check if the location returned is legal on a 5x5 board.
        You can assume that input will always be in correct range."""
     (row, column) = location
-    pass # Replace with code
+    adj_location = (0,1)
+    return adj_location
+    #pass # Replace with code
 
 def is_legal_move_by_musketeer(location, direction):
     """Tests if the Musketeer at the location can move in the direction.
     You can assume that input will always be in correct range. Raises
     ValueError exception if at(location) is not 'M'"""
-    pass # Replace with code
+    return True
+    #pass # Replace with code
 
 def is_legal_move_by_enemy(location, direction):
     """Tests if the enemy at the location can move in the direction.
     You can assume that input will always be in correct range. Raises
     ValueError exception if at(location) is not 'R'"""
-    pass # Replace with code
+    return True
+    #pass # Replace with code
 
 def is_legal_move(location, direction):
     """Tests whether it is legal to move the piece at the location
     in the given direction.
     You can assume that input will always be in correct range."""
-    pass # Replace with code
+    return True
+    #pass # Replace with code
 
 def can_move_piece_at(location):
     """Tests whether the player at the location has at least one move available.
     You can assume that input will always be in correct range.
     You can assume that input will always be in correct range."""
-    pass # Replace with code
+    return True
+    #pass # Replace with code
 
 
 def has_some_legal_move_somewhere(who):
@@ -97,47 +109,55 @@ def has_some_legal_move_somewhere(who):
     be either 'M' or 'R'). Does not provide any information on where
     the legal move is.
     You can assume that input will always be in correct range."""
-    pass # Replace with code
+    return True
+    #pass # Replace with code
 
 def possible_moves_from(location):
     """Returns a list of directions ('left', etc.) in which it is legal
        for the player at location to move. If there is no player at
        location, returns the empty list, [].
        You can assume that input will always be in correct range."""
-    pass # Replace with code
+    return []
+    #pass # Replace with code
 
 def is_legal_location(location):
     """Tests if the location is legal on a 5x5 board.
     You can assume that input will always be a pair of integers."""
-    pass # Replace with code
+    return True
+    #pass # Replace with code
     
 def is_within_board(location, direction):
     """Tests if the move stays within the boundaries of the board.
     You can assume that input will always be in correct range."""
-    pass # Replace with code
+    return True
+    #pass # Replace with code
     
 def all_possible_moves_for(player):
     """Returns every possible move for the player ('M' or 'R') as a list
        (location, direction) tuples.
        You can assume that input will always be in correct range."""
-    pass # Replace with code
+    return []
+    #pass # Replace with code
 
 def make_move(location, direction):
     """Moves the piece in location in the indicated direction.
     Doesn't check if the move is legal. You can assume that input will always
     be in correct range."""
-    pass # Replace with code
+    return ()
+    #pass # Replace with code
 
 def choose_computer_move(who):
     """The computer chooses a move for a Musketeer (who = 'M') or an
        enemy (who = 'R') and returns it as the tuple (location, direction),
        where a location is a (row, column) tuple as usual.
        You can assume that input will always be in correct range."""
-    pass # Replace with code
+    return ()
+    #pass # Replace with code
 
 def is_enemy_win():
     """Returns True if all 3 Musketeers are in the same row or column."""
-    pass # Replace with code
+    return True
+    #pass # Replace with code
 
 #---------- Communicating with the user ----------
 #----you do not need to modify code below unless you find a bug
