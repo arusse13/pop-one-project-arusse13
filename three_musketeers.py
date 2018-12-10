@@ -36,7 +36,9 @@ def get_board():
     return board
 
 def string_to_location(s):
-    location = (0,0)
+    row_loc = {"A": 0, "B": 1, "C": 2, "D": 3, "E": 4}
+    col_loc = {"1": 0, "2": 1, "3": 2, "4": 3, "5": 4}
+    location = (row_loc[s[0]], col_loc[s[1]])
     """Given a two-character string (such as 'A5'), returns the designated
        location as a 2-tuple (such as (0, 4)).
        The function should raise ValueError exception if the input
@@ -45,15 +47,20 @@ def string_to_location(s):
        """
     return location
     #pass # Replace with code
+    ## 181210 row_loc & col_loc added are dictionaries for location tuple referencing
 
 def location_to_string(location):
-    location_string = 'A0'
+    location_string=""
+    row_str = {0:"A", 1:"B", 2:"C", 3:"D", 4:"E"}
+    col_str = {0:"1", 1:"2", 2:"3", 3:"4", 4:"5"}
+    location_string = row_str[location[0]]+col_str[location[1]]
     """Returns the string representation of a location.
     Similarly to the previous function, this function should raise
     ValueError exception if the input is outside of the correct range
     """
     return location_string
     #pass # Replace with code
+    ## 181210 row_str & col_str added are dictionaries for location string referencing
 
 def at(location):
     """Returns the contents of the board at the given location.
@@ -143,6 +150,7 @@ def make_move(location, direction):
     """Moves the piece in location in the indicated direction.
     Doesn't check if the move is legal. You can assume that input will always
     be in correct range."""
+    "POSSIBLY NON-FRUITFUL FUNCTION - COMPARE BOARDS"
     return ()
     #pass # Replace with code
 
