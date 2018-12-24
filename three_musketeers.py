@@ -68,17 +68,26 @@ def at(location):
     return board[location[0]][location[1]]
 
 def all_locations():
-    location_contains = ['M']
+    global board
+    location_contains = [board[0]+board[1]+board[2]+board[3]+board[4]]
     """Returns a list of all 25 locations on the board."""
     return location_contains
     #pass # Replace with code
+    ## 181222 location_contains now concatination of board row lists
 
 def adjacent_location(location, direction):
     """Return the location next to the given one, in the given direction.
        Does not check if the location returned is legal on a 5x5 board.
        You can assume that input will always be in correct range."""
     (row, column) = location
-    adj_location = (0,1)
+    if direction == 'left':
+        adj_location = (row, column-1)
+    elif direction == 'right':
+        adj_location = (row, column+1)
+    elif direction == 'up':
+        adj_location = (row-1, column)
+    elif direction == 'down':
+        adj_location = (row+1, column)
     return adj_location
     #pass # Replace with code
 
@@ -86,6 +95,10 @@ def is_legal_move_by_musketeer(location, direction):
     """Tests if the Musketeer at the location can move in the direction.
     You can assume that input will always be in correct range. Raises
     ValueError exception if at(location) is not 'M'"""
+    (row, column) = location
+    (adj_row, adj_column) = adjacent_location(location,direction)
+
+
     return True
     #pass # Replace with code
 

@@ -32,10 +32,10 @@ board3 =  [ [M, M, R, M, _],
 
 def test_create_board():
     create_board()
-    assert at((0,0)) == R
-    assert at((0,4)) == M
-    assert at((2,2)) == M
-    assert at((4,0)) == M
+    assert at((0, 0)) == R
+    assert at((0, 4)) == M
+    assert at((2, 2)) == M
+    assert at((4, 0)) == M
 
     #eventually add at least two more test cases
     ## 181210 - other two M position tests added because they must start at this positions
@@ -43,15 +43,15 @@ def test_create_board():
 
 def test_set_board():
     set_board(board1)
-    assert at((0,0)) == _
-    assert at((1,2)) == R
-    assert at((1,3)) == M
+    assert at((0, 0)) == _
+    assert at((1, 2)) == R
+    assert at((1, 3)) == M
     #eventually add some board2 and at least 3 tests with it
 
     set_board(board2)
-    assert at((0,0)) == M
-    assert at((1,2)) == _
-    assert at((3,4)) == R
+    assert at((0, 0)) == M
+    assert at((1, 2)) == _
+    assert at((3, 4)) == R
     ## 181210 - above tests for new board2
 
     set_board(board3)
@@ -77,9 +77,9 @@ def test_string_to_location():
     with pytest.raises(KeyError):
         string_to_location('X3')
         string_to_location('A8')
-    assert string_to_location('A1') == (0,0)
-    assert string_to_location('C3') == (2,2)
-    assert string_to_location('E4') == (4,3)
+    assert string_to_location('A1') == (0, 0)
+    assert string_to_location('C3') == (2, 2)
+    assert string_to_location('E4') == (4, 3)
     #eventually add at least one more exception test and two more
     #test with correct inputs
     ## 181210 two more positional tests added C3 & E4
@@ -87,25 +87,30 @@ def test_string_to_location():
 
 def test_location_to_string():
     with pytest.raises(KeyError):
-        location_to_string((1,7))
-        location_to_string((8,3))
-    assert location_to_string((0,0)) == "A1"
-    assert location_to_string((2,2)) == "C3"
-    assert location_to_string((4,3)) == "E4"
+        location_to_string((1, 7))
+        location_to_string((8, 3))
+    assert location_to_string((0, 0)) == "A1"
+    assert location_to_string((2, 2)) == "C3"
+    assert location_to_string((4, 3)) == "E4"
     ## Replace with tests
     ## 181210 added location cross referencing tests and KeyError exceptions
 
 def test_at():
-    assert ('M' or 'R' or '-' == at((0,0)))
+    assert ('M' or 'R' or '-' == at((0, 0)))
     ## Replace with tests
 
 def test_all_locations():
     assert ('M' or 'R' or '-' == all_locations())
+    #assert (25 == len(all_locations())) - INCORRECT
     ## Replace with tests
 
 def test_adjacent_location():
-    assert ((0,1) == adjacent_location((0,0),right))
+    assert ((0, 1) == adjacent_location((0, 0), right))
+    assert ((0, 0) == adjacent_location((0, 1), left))
+    assert ((0, 0) == adjacent_location((1, 0), up))
+    assert ((1, 0) == adjacent_location((0, 0), down))
     ## Replace with tests
+    ## 181222 added tests to verify direction modifications
     
 def test_is_legal_move_by_musketeer():
     assert (True == is_legal_move((0,4),left))
