@@ -113,35 +113,99 @@ def test_adjacent_location():
     ## 181222 added tests to verify direction modifications
     
 def test_is_legal_move_by_musketeer():
-    assert (True == is_legal_move((0,4),left))
+    set_board(board1)
+    assert (True == is_legal_move_by_musketeer((2, 2), left))
+    assert (True == is_legal_move_by_musketeer((2, 2), up))
+    assert (False == is_legal_move_by_musketeer((2, 2), down))
+    assert (False == is_legal_move_by_musketeer((1, 1), right))
+    assert (False == is_legal_move_by_musketeer((0, 1), right))
     ## Replace with tests
-    
+    ## 181227 added tests to verify that function returns true OR false for
+    ## correct checks of 'M' and 'R' given location and direction
+    ## as set out by test board1
+
 def test_is_legal_move_by_enemy():
-    assert (True == is_legal_move_by_enemy((0,0),right))
+    set_board(board1)
+    assert (True == is_legal_move_by_enemy((1, 2), left))
+    assert (True == is_legal_move_by_enemy((1, 2), up))
+    assert (False == is_legal_move_by_enemy((1, 2), down))
+    assert (False == is_legal_move_by_enemy((1, 2), right))
+    assert (False == is_legal_move_by_enemy((0, 1), right))
     ## Replace with tests
+    ## 181227 added tests to verify that function returns true OR false for
+    ## correct checks of 'R' and '_' given location and direction
+    ## as set out by test board1
 
 def test_is_legal_move():
-    assert (True == is_legal_move((0,0),right))
+    set_board(board1)
+    assert (True == is_legal_move((2, 2), left))
+    assert (True == is_legal_move((2, 2), up))
+    assert (False == is_legal_move((2, 2), down))
+    assert (False == is_legal_move((1, 1), right))
+    assert (False == is_legal_move((0, 1), right))
+
+    assert (True == is_legal_move((1, 2), left))
+    assert (True == is_legal_move((1, 2), up))
+    assert (False == is_legal_move((1, 2), down))
+    assert (False == is_legal_move((1, 2), right))
+    assert (False == is_legal_move((0, 1), right))
     ## Replace with tests
+    ## 181227 copied tests for is_legal_move_by_enemy/musketeer function to test
+    ## combining both functions in is_legal_move
 
 def test_can_move_piece_at():
-    assert (True == can_move_piece_at((0,0)))
+    set_board(board1)
+    assert (True == can_move_piece_at((2, 2)))
+    assert (True == can_move_piece_at((1, 2)))
+    assert (False == can_move_piece_at((0, 0)))
+    assert (False == can_move_piece_at((0, 3)))
+
+    set_board(board2)
+    assert (False == can_move_piece_at((0, 0)))
+    assert (False == can_move_piece_at((2, 2)))
+    assert (True == can_move_piece_at((4, 3)))
+    assert (False == can_move_piece_at((2, 4)))
+
+    set_board(board3)
+    assert (False == can_move_piece_at((0, 0)))
+    assert (True == can_move_piece_at((0, 3)))
+    assert (True == can_move_piece_at((3, 1)))
+    assert (False == can_move_piece_at((2, 4)))
+
     ## Replace with tests
+    ## 181227 tests added verifying movement options for 'R', 'M' and '-' locations
 
 def test_has_some_legal_move_somewhere():
     set_board(board1)
-    assert has_some_legal_move_somewhere('M') == True
-    assert has_some_legal_move_somewhere('R') == True
+    assert (True == has_some_legal_move_somewhere('M'))
+    assert (True == has_some_legal_move_somewhere('R'))
+
+    set_board(board2)
+    assert (False == has_some_legal_move_somewhere('M'))
+    assert (True == has_some_legal_move_somewhere('R'))
     # Eventually put at least three additional tests here
     # with at least one additional board
+    ## 181227 tests expanded with two boards
 
 def test_possible_moves_from():
+    set_board(board1)
+    #['down', 'up', 'right', 'left']
     assert ([]==possible_moves_from((0,0)))
+    assert (['up', 'right', 'left']==possible_moves_from((2, 2)))
+    assert (['up', 'right', 'left']==possible_moves_from((4, 3)))
+    assert ([] == possible_moves_from((0, 3)))
     ## Replace with tests
+    ## 181227 tests added selecting locations of 'M', 'R' and '-'
 
 def test_is_legal_location():
-    assert (True == is_legal_location((0,0)))
+    assert (True == is_legal_location((0, 0)))
+    assert (True == is_legal_location((2, 0)))
+    assert (True == is_legal_location((4, 3)))
+    assert (False == is_legal_location((5, 1)))
+    assert (False == is_legal_location((-1, -3)))
+
     ## Replace with tests
+    ## 181227 addtional tests added including outside of range tests
 
 def test_is_within_board():
     assert (True == is_within_board((0,0),right))

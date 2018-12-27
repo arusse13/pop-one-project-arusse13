@@ -74,6 +74,7 @@ def all_locations():
     return location_contains
     #pass # Replace with code
     ## 181222 location_contains now concatination of board row lists
+    ## IS THIS SUPPOSED TO LOCATION CONTENTS OR COORDINATES ??
 
 def adjacent_location(location, direction):
     """Return the location next to the given one, in the given direction.
@@ -90,6 +91,7 @@ def adjacent_location(location, direction):
         adj_location = (row+1, column)
     return adj_location
     #pass # Replace with code
+    ## 181227 modified location based on direction input
 
 def is_legal_move_by_musketeer(location, direction):
     """Tests if the Musketeer at the location can move in the direction.
@@ -97,31 +99,84 @@ def is_legal_move_by_musketeer(location, direction):
     ValueError exception if at(location) is not 'M'"""
     (row, column) = location
     (adj_row, adj_column) = adjacent_location(location,direction)
-
-
-    return True
+    try:
+        if board[row][column] == 'M':
+            if board[adj_row][adj_column] == 'R':
+                return True
+            else:
+                raise ValueError('No Enemy in direction input')
+        else:
+            raise ValueError('No Musketeer at location input')
+    except ValueError:
+        print('No Enemy in direction input OR No Musketeer at location input')
+        return False
     #pass # Replace with code
+    ## 181227 calls adjacent_location function to check if directional cell is occupied for move
+    ## returns True if location is occupied by 'M' and if neighbouring cell in direction is occupied by 'R'
+    ## returns False by way of exception handling of raised ValueError
 
 def is_legal_move_by_enemy(location, direction):
     """Tests if the enemy at the location can move in the direction.
     You can assume that input will always be in correct range. Raises
     ValueError exception if at(location) is not 'R'"""
-    return True
+    (row, column) = location
+    (adj_row, adj_column) = adjacent_location(location,direction)
+    try:
+        if board[row][column] == 'R':
+            if board[adj_row][adj_column] == '-':
+                return True
+            else:
+                raise ValueError('Not empty cell in direction input')
+        else:
+            raise ValueError('No Enemy at location input')
+    except ValueError:
+        print('No empty cell in direction input OR No Enemy at location input')
+        return False
     #pass # Replace with code
+    ## 181227 calls adjacent_location function to check if directional cell is occupied for move
+    ## returns True if location is occupied by 'R' and if neighbouring cell in direction is occupied by '-'
+    ## returns False by way of exception handling of raised ValueError
 
 def is_legal_move(location, direction):
     """Tests whether it is legal to move the piece at the location
     in the given direction.
     You can assume that input will always be in correct range."""
-    return True
+    if is_legal_move_by_musketeer(location, direction) or is_legal_move_by_enemy(location, direction) == True:
+        return True
+    else:
+        return False
     #pass # Replace with code
+    ## 181227 combination of is_legal_move_by functions under one function which returns true if either are legel
+    ## main program body checks if 'M' or 'R' are at location depending on who's move it is
+
+def limiter(coordinate):
+    if coordinate < 0:
+        coordinate = 0
+    elif coordinate > 4:
+        coordinate = 4
+    return coordinate
+
+## 181227 added function added to keep cell traversing from 0 to 4
 
 def can_move_piece_at(location):
     """Tests whether the player at the location has at least one move available.
-    You can assume that input will always be in correct range.
     You can assume that input will always be in correct range."""
-    return True
+    (row, column) = location
+    if board[row][column] == 'R':
+        if board[limiter(row+1)][column] == '-' or board[limiter(row-1)][column] == '-' or board[row][limiter(column+1)] == '-' or board[row][limiter(column-1)] == '-':
+            return True
+        else:
+            return False
+    elif board[row][column] == 'M':
+        if board[limiter(row+1)][column] == 'R' or board[limiter(row-1)][column] == 'R' or board[row][limiter(column+1)] == 'R' or board[row][limiter(column-1)] == 'R':
+            return True
+        else:
+            return False
+    else:
+        return False
     #pass # Replace with code
+    ## 181227 tests whether there is an empty cell or enemy cell in any orthogonal to location
+    ## limiter function used (in place of abs) to prevent negative indexing or indexing outside upper limit
 
 
 def has_some_legal_move_somewhere(who):
@@ -129,26 +184,80 @@ def has_some_legal_move_somewhere(who):
     be either 'M' or 'R'). Does not provide any information on where
     the legal move is.
     You can assume that input will always be in correct range."""
-    return True
+    i=0
+    j=0
+    possible_move=False
+    if who == 'M':
+        for i in range(5):
+            for j in range(5):
+                if board[i][j] == 'M':
+                    if can_move_piece_at((i,j)) == True:
+                        possible_move=True
+
+    elif who == 'R':
+        for i in range(5):
+            for j in range(5):
+                if board[i][j] == 'R':
+                    if can_move_piece_at((i,j)) == True:
+                        possible_move=True
+    return possible_move
     #pass # Replace with code
+    ## 181227 uses for loop to check every board cell,
+    ## upon a match to 'M' or 'R@ intiates can_move_piece_at function
 
 def possible_moves_from(location):
     """Returns a list of directions ('left', etc.) in which it is legal
        for the player at location to move. If there is no player at
        location, returns the empty list, [].
        You can assume that input will always be in correct range."""
-    return []
+    possible_move_list = []
+    (row, column) = location
+    if board[row][column] == 'R':
+        if board[limiter(row+1)][column] == '-' and (row+1) <= 4:
+            possible_move_list.append('down')
+
+        if board[limiter(row-1)][column] == '-' and (row-1) >= 0:
+            possible_move_list.append('up')
+
+        if board[row][limiter(column+1)] == '-' and (column+1) <= 4:
+            possible_move_list.append('right')
+
+        if board[row][limiter(column-1)] == '-' and (column-1) >= 0:
+            possible_move_list.append('left')
+
+    elif board[row][column] == 'M':
+        if board[limiter(row+1)][column] == 'R' and (row+1) <= 4:
+            possible_move_list.append('down')
+
+        if board[limiter(row-1)][column] == 'R' and (row-1) >= 0:
+            possible_move_list.append('up')
+
+        if board[row][limiter(column+1)] == 'R' and (column+1) <= 4:
+            possible_move_list.append('right')
+
+        if board[row][limiter(column-1)] == 'R' and (column-1) >= 0:
+            possible_move_list.append('left')
+
+    return possible_move_list
     #pass # Replace with code
+    ## 181227 uses if statements to check if orthagonal cell location are viable for move
 
 def is_legal_location(location):
     """Tests if the location is legal on a 5x5 board.
     You can assume that input will always be a pair of integers."""
-    return True
+    (row, column) = location
+    if row >= 0 and row <= 4:
+        if column >= 0 and column <= 4:
+            return True
+    else:
+        return False
     #pass # Replace with code
+    ## 181227 uses if statements to test location coordinates are in index range
     
 def is_within_board(location, direction):
     """Tests if the move stays within the boundaries of the board.
     You can assume that input will always be in correct range."""
+    
     return True
     #pass # Replace with code
     
