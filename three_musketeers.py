@@ -11,6 +11,7 @@
 #
 # For brevity, Cardinal Richleau's men are referred to as "enemy".
 # 'pass' is a no-nothing Python statement. Replace it with actual code.
+import random
 
 def create_board():
     global board
@@ -257,37 +258,111 @@ def is_legal_location(location):
 def is_within_board(location, direction):
     """Tests if the move stays within the boundaries of the board.
     You can assume that input will always be in correct range."""
-    
-    return True
+    adj_location = adjacent_location(location, direction)
+    if is_legal_location(adj_location) == True:
+        return True
+    else:
+        return False
     #pass # Replace with code
-    
+    ## 190103 function defined using adjacent_location function and is_legal_location
+
 def all_possible_moves_for(player):
     """Returns every possible move for the player ('M' or 'R') as a list
        (location, direction) tuples.
        You can assume that input will always be in correct range."""
-    return []
+    possible_move_options = []
+    i = 0
+    j = 0
+    if player == 'M':
+        for i in range(5):
+            for j in range(5):
+                if board[i][j] == 'M':
+                    if can_move_piece_at((i, j)) == True:
+
+                        if (is_within_board((i, j), 'up') == True) and (is_legal_move_by_musketeer((i, j), 'up') == True):
+                            possible_move_options.append(((i, j), 'up'))
+
+                        if (is_within_board((i, j), 'down') == True) and (is_legal_move_by_musketeer((i, j), 'down') == True):
+                            possible_move_options.append(((i, j), 'down'))
+
+                        if (is_within_board((i, j), 'left') == True) and (is_legal_move_by_musketeer((i, j), 'left') == True):
+                            possible_move_options.append(((i, j), 'left'))
+
+                        if (is_within_board((i, j), 'right') == True) and (is_legal_move_by_musketeer((i, j), 'right') == True) :
+                            possible_move_options.append(((i, j), 'right'))
+
+    elif player == 'R':
+        for i in range(5):
+            for j in range(5):
+                if board[i][j] == 'R':
+                    if can_move_piece_at((i, j)) == True:
+
+                        if (is_within_board((i, j), 'up') == True) and (is_legal_move_by_enemy((i, j), 'up') == True):
+                            possible_move_options.append(((i, j), 'up'))
+
+                        if (is_within_board((i, j), 'down') == True) and (is_legal_move_by_enemy((i, j), 'down') == True):
+                            possible_move_options.append(((i, j), 'down'))
+
+                        if (is_within_board((i, j), 'left') == True) and (is_legal_move_by_enemy((i, j), 'left') == True):
+                            possible_move_options.append(((i, j), 'left'))
+
+                        if (is_within_board((i, j), 'right') == True) and (is_legal_move_by_enemy((i, j), 'right') == True):
+                            possible_move_options.append(((i, j), 'right'))
+
+    return possible_move_options
+
     #pass # Replace with code
+    ## 190103 used structure of has_legal_move_somewhere function to check through board
+    ## then used is_within_board to identify legal moves
 
 def make_move(location, direction):
     """Moves the piece in location in the indicated direction.
     Doesn't check if the move is legal. You can assume that input will always
     be in correct range."""
     "POSSIBLY NON-FRUITFUL FUNCTION - COMPARE BOARDS"
-    return ()
+    (row, column) = location
+
+    adj_location = adjacent_location(location, direction)
+    (adj_row, adj_col) = adj_location
+
+    board[adj_row][adj_col]=board[row][column]
+    board[row][column]='-'
+
+    return board
     #pass # Replace with code
+    ## 190103 calls adj_location for reassignment t0 value of location
+    ## then replaces location value with empty = '-' after move
 
 def choose_computer_move(who):
     """The computer chooses a move for a Musketeer (who = 'M') or an
        enemy (who = 'R') and returns it as the tuple (location, direction),
        where a location is a (row, column) tuple as usual.
        You can assume that input will always be in correct range."""
-    return ()
+    all_possible_options=all_possible_moves_for(who)
+
+    return all_possible_options[0]
     #pass # Replace with code
+    ## 190103 stub inserted so computer will always select first option from all_possible_moves_for function
+    ## strategy will be implemented here
 
 def is_enemy_win():
     """Returns True if all 3 Musketeers are in the same row or column."""
-    return True
+    boardt= [[],[],[],[],[]]
+    enemy_win=False
+
+    for i in range(5):
+        for j in range(5):
+            boardt[i].append(board[j][i])
+
+    for x in range(5):
+        if (board[x].count('M')==3) or (boardt[x].count('M')==3):
+            enemy_win=True
+
+    return enemy_win
     #pass # Replace with code
+    ## 190103 function creates a transposed board so that all the columns values are in a list
+    ## then the count method is used check if either the row list from board and boardt contain 3 occurances
+    ## of 'M'
 
 #---------- Communicating with the user ----------
 #----you do not need to modify code below unless you find a bug

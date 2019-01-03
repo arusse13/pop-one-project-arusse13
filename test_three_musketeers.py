@@ -30,6 +30,38 @@ board3 =  [ [M, M, R, M, _],
 
 # 181210 - board3 added, R winners
 
+board4 =  [ [_, M, _, _, _],
+            [_, _, _, _, _],
+            [_, _, M, R, _],
+            [_, _, R, _, _],
+            [_, _, _, _, _] ]
+
+# 190103 - board4 added for easier unit testing all_possible_moves_for
+
+board5 =  [ [_, M, _, _, _],
+            [_, _, _, _, _],
+            [_, _, _, M, _],
+            [_, _, R, _, _],
+            [_, _, _, _, _] ]
+
+# 190103 - board5 added showing M ((2,2), 'right' from board4
+
+board6 =  [ [_, M, _, _, _],
+            [_, _, _, R, _],
+            [_, _, M, _, _],
+            [_, _, R, _, _],
+            [_, _, _, _, _] ]
+
+# 190103 - board6 added showing R ((2,3), 'up' from board4
+
+board7 =  [ [_, R, R, _, _],
+            [_, _, M, _, R],
+            [_, _, _, R, _],
+            [R, R, M, _, _],
+            [_, _, M, R, _] ]
+
+# 190103 - board7 added, R winners, by column
+
 def test_create_board():
     create_board()
     assert at((0, 0)) == R
@@ -208,23 +240,61 @@ def test_is_legal_location():
     ## 181227 addtional tests added including outside of range tests
 
 def test_is_within_board():
-    assert (True == is_within_board((0,0),right))
+    assert (True == is_within_board((0, 0), right))
+    assert (True == is_within_board((0, 0), down))
+    assert (False == is_within_board((0, 0), left))
+    assert (False == is_within_board((0, 0), up))
+
+    assert (False == is_within_board((4, 4), right))
+    assert (False == is_within_board((4, 4), down))
+    assert (True == is_within_board((4, 4), left))
+    assert (True == is_within_board((4, 4), up))
+
+    assert (True == is_within_board((2, 2), right))
+    assert (True == is_within_board((2, 2), down))
+    assert (True == is_within_board((2, 2), left))
+    assert (True == is_within_board((2, 2), up))
+
     ## Replace with tests
+    ## 190103 additional tests added
 
 def test_all_possible_moves_for():
-    assert ([] ==  all_possible_moves_for(M))
+    set_board(board4)
+    assert ([((2, 2),'down'),((2, 2),'right')] ==  all_possible_moves_for('M'))
+    assert ([((2, 3), 'up'), ((2, 3), 'down'),((2, 3), 'right'),
+             ((3, 2), 'down'),((3, 2), 'left'), ((3, 2), 'right')] == all_possible_moves_for('R'))
     ## Replace with tests
+    ## 190103 added tests for board4
     
 def test_make_move():
-    assert ((0,0) == make_move((0,1),left))
+    set_board(board4)
+    assert (board5 == make_move((2, 2),'right'))
+    assert (board6 == make_move((2, 3), 'up'))
     # Replace with tests
+    ## 190103 added two tests moving a R and a M piece
     
 def test_choose_computer_move():
-    assert (()==choose_computer_move(M))
+    set_board(board4)
+    assert (((2, 2), 'down')== choose_computer_move('M'))
+    assert (((2, 3), 'up') == choose_computer_move('R'))
     # Replace with tests; should work for both 'M' and 'R'
+    ## 190103 basic tests added so that computer picks first (location, direction) tuple
+    ## output from all_possible_moves_for
 
 def test_is_enemy_win():
-    assert True
+    set_board(board3)
+    assert (True == is_enemy_win())
+
+    set_board(board7)
+    assert (True == is_enemy_win())
+
+    set_board(board2)
+    assert (False == is_enemy_win())
+
+    set_board(board1)
+    assert (False == is_enemy_win())
     # Replace with tests
+    ## 190103 added 4 tests, 2 boards for an enemy win by row and column
+    ## then a further 2 more non enemy wins
 
 
