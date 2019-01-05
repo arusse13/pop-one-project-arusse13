@@ -48,7 +48,7 @@ def string_to_location(s):
        """
     return location
     #pass # Replace with code
-    ## 181210 row_loc & col_loc are dictionaries for location tuple referencing
+    ## 181210 row_loc & col_loc added are dictionaries for location tuple referencing
 
 def location_to_string(location):
     """Returns the string representation of a location.
@@ -223,7 +223,7 @@ def has_some_legal_move_somewhere(who):
     return possible_move
     #pass # Replace with code
     ## 181227 uses for loop to check every board cell,
-    ## upon a match to 'M' or 'R' intiates can_move_piece_at function
+    ## upon a match to 'M' or 'R@ intiates can_move_piece_at function
 
 def possible_moves_from(location):
     """Returns a list of directions ('left', etc.) in which it is legal
@@ -360,10 +360,10 @@ def choose_computer_move(who):
        You can assume that input will always be in correct range."""
     all_possible_options=all_possible_moves_for(who)
 
-    return all_possible_options[0]
+    return random.choice(all_possible_options)
     #pass # Replace with code
     ## 190103 stub inserted so computer will always select first option from all_possible_moves_for function
-    ## strategy will be implemented here, set to first option for testing validation only
+    ## strategy will be implemented here
 
 def is_enemy_win():
     """Returns True if all 3 Musketeers are in the same row or column."""
@@ -425,7 +425,11 @@ def get_users_move():
     """Gets a legal move from the user, and returns it as a
        (location, direction) tuple."""    
     directions = {'L':'left', 'R':'right', 'U':'up', 'D':'down'}
-    move = input("Your move? ").upper().replace(' ', '')
+    move = input("Your move? (or S to save and exit) ").upper().replace(' ', '')
+    if move == 'S':
+        save_game()
+        #get_users_move() ##option if wanted to save and continue
+
     if (len(move) >= 3
             and move[0] in 'ABCDE'
             and move[1] in '12345'
@@ -483,6 +487,10 @@ def start():
     """Plays the Three Musketeers Game."""
     users_side = choose_users_side()
     board = create_board()
+    print('Would you like to load a previously saved game? type Y for yes or any other key for no to play new game')
+    if input().upper()== 'Y':
+        load_game()
+
     print_instructions()
     print_board()
     while True:
@@ -501,5 +509,27 @@ def start():
         else:
             print("The Musketeers win!")
             break
+
+def load_game():
+    infile = open("save1.txt", "r")
+    infile_str = infile.read()
+
+    pos_counter = 0  # 0-24
+    # Each time we read an 'R', 'M' or '-' in the file we can assume we have progressed down the board
+    # matrix reading from left to right along each row. There for when interpolate the matrix position
+    # of each detection using int(i/5) for the row position and int(i%5) for column position
+
+    for i in range(len(infile_str)):
+        if infile_str[i] == 'R' or infile_str[i] == 'M' or infile_str[i] == '-':
+            board[int(pos_counter / 5)][pos_counter%5]=infile_str[i]
+            pos_counter += 1
+
+    infile.close()
+
+def save_game():
+    outfile = open("save1.txt", "w")
+    outfile.write(str(board))
+    outfile.close()
+    exit()
 
 start() ##ACTIVATE TO RUN PROGRAMME##
