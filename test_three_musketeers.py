@@ -62,6 +62,22 @@ board7 =  [ [_, R, R, _, _],
 
 # 190103 - board7 added, R winners, by column
 
+board8 =  [ [_, M, _, _, _],
+            [_, _, _, _, _],
+            [_, _, M, _, R],
+            [_, _, R, _, _],
+            [_, _, _, _, _] ]
+
+# 190105 - board8 added showing R ((2,3), 'right' from board4
+
+board9 =  [ [_, _, _, _, _],
+            [_, M, _, _, _],
+            [_, _, M, R, _],
+            [_, _, R, _, _],
+            [_, _, _, _, _] ]
+
+# 190103 - board9 added showing M ((0,1), 'left' from board4
+
 def test_create_board():
     create_board()
     assert at((0, 0)) == R
@@ -151,6 +167,9 @@ def test_is_legal_move_by_musketeer():
     assert (False == is_legal_move_by_musketeer((2, 2), down))
     assert (False == is_legal_move_by_musketeer((1, 1), right))
     assert (False == is_legal_move_by_musketeer((0, 1), right))
+
+    set_board(board2)
+    assert (False == is_legal_move_by_musketeer((0, 0), left))
     ## Replace with tests
     ## 181227 added tests to verify that function returns true OR false for
     ## correct checks of 'M' and 'R' given location and direction
@@ -266,16 +285,32 @@ def test_all_possible_moves_for():
     ## Replace with tests
     ## 190103 added tests for board4
     
-def test_make_move():
+def test_make_move1():
     set_board(board4)
     assert (board5 == make_move((2, 2),'right'))
+
+def test_make_move2():
+    set_board(board4)
     assert (board6 == make_move((2, 3), 'up'))
+
+def test_make_move3():
+    set_board(board4)
+    assert (board8 == make_move((2, 3), 'right'))
+
+def test_make_move4():
+    set_board(board4)
+    assert (board9 == make_move((0, 1), 'down'))
+
     # Replace with tests
     ## 190103 added two tests moving a R and a M piece
+    ## 190105 seperated make move tests into 4 seperate tests so that set_board() generates a 'fresh' board4 each time
+    ## ,this is because make_move() is a board modifying function
     
 def test_choose_computer_move():
     set_board(board4)
     assert (((2, 2), 'down')== choose_computer_move('M'))
+
+    set_board(board4)
     assert (((2, 3), 'up') == choose_computer_move('R'))
     # Replace with tests; should work for both 'M' and 'R'
     ## 190103 basic tests added so that computer picks first (location, direction) tuple

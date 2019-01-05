@@ -51,17 +51,21 @@ def string_to_location(s):
     ## 181210 row_loc & col_loc added are dictionaries for location tuple referencing
 
 def location_to_string(location):
+    """Returns the string representation of a location.
+        Similarly to the previous function, this function should raise
+        ValueError exception if the input is outside of the correct range
+        """
     location_string=""
     row_str = {0:"A", 1:"B", 2:"C", 3:"D", 4:"E"}
     col_str = {0:"1", 1:"2", 2:"3", 3:"4", 4:"5"}
-    location_string = row_str[location[0]]+col_str[location[1]]
-    """Returns the string representation of a location.
-    Similarly to the previous function, this function should raise
-    ValueError exception if the input is outside of the correct range
-    """
+
+    try:
+        location_string = row_str[location[0]]+col_str[location[1]]
+
     return location_string
     #pass # Replace with code
     ## 181210 row_str & col_str added are dictionaries for location string referencing
+    ## 190105 keyError Exception removed
 
 def at(location):
     """Returns the contents of the board at the given location.
@@ -102,19 +106,26 @@ def is_legal_move_by_musketeer(location, direction):
     (adj_row, adj_column) = adjacent_location(location,direction)
     try:
         if board[row][column] == 'M':
-            if board[adj_row][adj_column] == 'R':
-                return True
-            else:
-                raise ValueError('No Enemy in direction input')
+                if is_legal_location((adj_row, adj_column)):
+                    if board[adj_row][adj_column] == 'R':
+                        return True
+                    else:
+                        raise ValueError('No Enemy in direction input')
+                        return False
+                else:
+                    raise ValueError('Move outside boundry')
+                    return False
         else:
             raise ValueError('No Musketeer at location input')
+            return False
     except ValueError:
-        print('No Enemy in direction input OR No Musketeer at location input')
+        #print('No Enemy in direction input OR No Musketeer at location input')
         return False
     #pass # Replace with code
     ## 181227 calls adjacent_location function to check if directional cell is occupied for move
     ## returns True if location is occupied by 'M' and if neighbouring cell in direction is occupied by 'R'
     ## returns False by way of exception handling of raised ValueError
+    ## 190104 added is legal location to prevent off boundary moves
 
 def is_legal_move_by_enemy(location, direction):
     """Tests if the enemy at the location can move in the direction.
@@ -124,19 +135,28 @@ def is_legal_move_by_enemy(location, direction):
     (adj_row, adj_column) = adjacent_location(location,direction)
     try:
         if board[row][column] == 'R':
-            if board[adj_row][adj_column] == '-':
-                return True
-            else:
-                raise ValueError('Not empty cell in direction input')
+            try:
+                if is_legal_location((adj_row, adj_column)):
+                    if board[adj_row][adj_column] == '-':
+                        return True
+                    else:
+                        raise ValueError('Not empty cell in direction input')
+                        return False
+                else:
+                    raise ValueError('Move outside boundry')
+                    return False
+            except IndexError:
+                return False
         else:
             raise ValueError('No Enemy at location input')
     except ValueError:
-        print('No empty cell in direction input OR No Enemy at location input')
+        #print('No empty cell in direction input OR No Enemy at location input')
         return False
     #pass # Replace with code
     ## 181227 calls adjacent_location function to check if directional cell is occupied for move
     ## returns True if location is occupied by 'R' and if neighbouring cell in direction is occupied by '-'
     ## returns False by way of exception handling of raised ValueError
+    ## 190104 added is legal location to prevent off boundary moves
 
 def is_legal_move(location, direction):
     """Tests whether it is legal to move the piece at the location
@@ -250,6 +270,8 @@ def is_legal_location(location):
     if row >= 0 and row <= 4:
         if column >= 0 and column <= 4:
             return True
+        else:
+            return False
     else:
         return False
     #pass # Replace with code
@@ -319,7 +341,6 @@ def make_move(location, direction):
     """Moves the piece in location in the indicated direction.
     Doesn't check if the move is legal. You can assume that input will always
     be in correct range."""
-    "POSSIBLY NON-FRUITFUL FUNCTION - COMPARE BOARDS"
     (row, column) = location
 
     adj_location = adjacent_location(location, direction)
@@ -481,3 +502,5 @@ def start():
         else:
             print("The Musketeers win!")
             break
+
+#start() ##ACTIVATE TO RUN PROGRAMME##
