@@ -1,0 +1,30 @@
+Total coursework mark: 18.3  (out of 20)
+
+Exercise sheets mark:  9.5  (out of 10)
+
+Project mark:  8.8  (out of 10)
+
+Project feedback and mark details
+
+Correctness and adherence to specification:  30%  (out of 30%)
+
+The code is correct and adheres to the specification
+
+Completeness of code, tests, and commit history:  26%    (out of 30%)   
+
+Commit history looks “healthy”. There are four failing tests a point subtracted for each
+
+Coding style: 8%   (out of 10%) 
+
+If you are going to invoke start() at the end of the script, you should wrap it in
+
+If __name__ == “__main__”:
+    start()
+
+So that when you come to test your script it does not attempt to run your code.
+
+Anything you do after raising an exception will never be evaluated. Such as what you have on line 112, 115, and 119
+
+Extension:  24%     (out of 30%) 
+
+Extension implemented and works. It would have been better if an opportunity was was given the player to save multiple files. Also saving as a musketeer and then loading the game as an enemy should not be allowed.
